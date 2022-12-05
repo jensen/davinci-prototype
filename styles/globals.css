@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #__next {
+    @apply h-full;
+  }
+
+  body {
+    @apply bg-white;
+  }
+
+  body.email {
+    background-image: radial-gradient(
+      900px 800px at 50% -375px,
+      rgba(194, 140, 228, 0.7),
+      rgba(194, 140, 228, 0)
+    );
+  }
+
+  body.website {
+    background-image: radial-gradient(
+      900px 800px at 50% -375px,
+      rgba(52, 211, 153, 0.7),
+      rgba(52, 211, 153, 0)
+    );
+  }
+}
