@@ -1,7 +1,7 @@
 import ClipboardIcon from "components/icons/clipboard";
 
 const itemClasses =
-  "px-6 py-5 border border-gray-100 bg-gray-50 flex justify-between rounded-lg";
+  "px-6 py-5 border border-gray-100 bg-gray-50 flex justify-between rounded-lg min-w-[768px]";
 
 interface ResultsListProps {
   results: string[];
@@ -9,7 +9,7 @@ interface ResultsListProps {
 
 export default function ResultsList(props: ResultsListProps) {
   return (
-    <ul className="space-y-4 max-w-[768px]">
+    <ul className="space-y-4 max-w-[885px]">
       {props.results.map((result) => {
         return (
           <li key={result} className={itemClasses}>

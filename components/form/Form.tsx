@@ -109,7 +109,7 @@ const Section = (props: SectionProps) => {
       <h3 className="uppercase font-semibold text-xs text-gray-400 mb-3">
         {props.heading}
       </h3>
-      <ul className="space-x-2 flex">
+      <ul className="space-x-2 flex flex-wrap">
         {props.options.map((label) => {
           const active = props.selected === label;
 
@@ -251,7 +251,7 @@ export default function Form(props: FormProps) {
 
   return (
     <form
-      className="flex flex-col items-center"
+      className="flex flex-col items-center w-full"
       onSubmit={(event) => {
         event.preventDefault();
 
@@ -264,7 +264,7 @@ export default function Form(props: FormProps) {
       }}
     >
       <Prompt type={props.type} selected={selected} />
-      <div>
+      <div className="w-full max-w-[800px]">
         <div className="p-4 flex justify-center space-x-10 mb-16">
           <SubmitButton
             disabled={Object.values(selected).some((v) => v === null)}

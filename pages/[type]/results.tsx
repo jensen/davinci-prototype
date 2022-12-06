@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import ResultsList from "components/ResultsList";
 import ResultsFeedback from "components/ResultsFeedback";
 import { usePrompt } from "context/prompt";
-import Dot from "components/brand/Dot";
+import Alicent from "components/brand/Alicent";
 
 export default function Results() {
   const router = useRouter();
@@ -26,9 +26,8 @@ export default function Results() {
     <div className="h-full flex flex-col items-center">
       <Prompt type={type} selected={selected} />
       {asking ? (
-        <div className="animate-pulse p-16 flex flex-col items-center relative">
-          <Dot type={type} size={256} />
-          <span className="text-sm absolute top-1/2">Thinking</span>
+        <div className="animate-pulse pt-32 flex flex-col items-center relative">
+          <Alicent />
         </div>
       ) : (
         <>
