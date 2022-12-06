@@ -17,7 +17,7 @@ export default async function handler(
     max_tokens: 1024,
   });
 
-  console.log(completion, completion.data.choices);
+  console.log(prompt, completion.data);
 
   const [_, results] = completion.data.choices[0].text.split("\n\n");
 
