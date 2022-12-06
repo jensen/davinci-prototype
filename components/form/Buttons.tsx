@@ -7,19 +7,22 @@ const buttonClasses = "flex items-center space-x-2 px-4 py-2";
 
 interface ButtonProps {
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export const SubmitButton = (props: ButtonProps) => {
   return (
     <button
       type="submit"
-      className={classNames(buttonClasses)}
+      className={classNames(buttonClasses, {
+        "text-gray-500": !props.disabled,
+        "text-gray-300": props.disabled,
+      })}
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       <SubmitIcon />
-      <span className="uppercase font-semibold text-xs text-gray-500">
-        Submit
-      </span>
+      <span className="uppercase font-semibold text-xs">Submit</span>
     </button>
   );
 };
@@ -28,13 +31,15 @@ export const ClearButton = (props: ButtonProps) => {
   return (
     <button
       type="button"
-      className={classNames(buttonClasses)}
+      className={classNames(buttonClasses, {
+        "text-gray-500": !props.disabled,
+        "text-gray-300": props.disabled,
+      })}
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       <ClearIcon />
-      <span className="uppercase font-semibold text-xs text-gray-500">
-        Clear
-      </span>
+      <span className="uppercase font-semibold text-xs">Clear</span>
     </button>
   );
 };

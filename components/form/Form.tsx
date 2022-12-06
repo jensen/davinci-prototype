@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import Prompt from "./Prompt";
 import { SubmitButton, ClearButton } from "./Buttons";
@@ -6,6 +6,7 @@ import ChevronIcon from "components/icons/chevron";
 import classnames from "classnames";
 import { useRouter } from "next/router";
 import CrossIcon from "components/icons/cross";
+import { usePrompt } from "context/prompt";
 
 const options = {
   email: [
@@ -234,10 +235,12 @@ const getInitialSections = (sections: { id: string }[]) => {
 
 export default function Form(props: FormProps) {
   const router = useRouter();
+  const { selected, setSelected, ask } = usePrompt();
   const sections = options[props.type];
-  const [selected, setSelected] = useState<Record<string, string | null>>(
-    getInitialSections(sections)
-  );
+
+  useEffect(() => {
+    setSelected(getInitialSections(sections));
+  }, [sections, setSelected]);
 
   const handleToggle = (id: string) => (label: string) => {
     setSelected((prev) => ({
@@ -252,7 +255,7 @@ export default function Form(props: FormProps) {
       onSubmit={(event) => {
         event.preventDefault();
 
-        console.log(selected);
+        ask(props.type);
 
         router.push({
           pathname: "/[type]/results",
@@ -263,8 +266,11 @@ export default function Form(props: FormProps) {
       <Prompt type={props.type} selected={selected} />
       <div>
         <div className="p-4 flex justify-center space-x-10 mb-16">
-          <SubmitButton />
+          <SubmitButton
+            disabled={Object.values(selected).some((v) => v === null)}
+          />
           <ClearButton
+            disabled={Object.values(selected).every((v) => v === null)}
             onClick={() => setSelected(getInitialSections(sections))}
           />
         </div>

@@ -9,7 +9,7 @@ interface ResultsListProps {
 
 export default function ResultsList(props: ResultsListProps) {
   return (
-    <ul className="space-y-4">
+    <ul className="space-y-4 max-w-[768px]">
       {props.results.map((result) => {
         return (
           <li key={result} className={itemClasses}>

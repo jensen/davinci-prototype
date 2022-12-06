@@ -9,7 +9,7 @@ export default function SubmitIcon() {
     >
       <path
         d="M13.1071 1.3677L8.86442 13.4895L6.44005 8.03471L0.985229 5.61034L13.1071 1.3677Z"
-        stroke="#6B7280"
+        stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

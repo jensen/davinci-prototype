@@ -4,6 +4,7 @@ import FullLayout from "layouts/Full";
 import type { AppProps } from "next/app";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
+import PromptProvider from "context/prompt";
 
 import "../styles/globals.css";
 
@@ -30,7 +31,7 @@ export default function Application({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {getLayout(<Component {...pageProps} />)}
+      <PromptProvider>{getLayout(<Component {...pageProps} />)}</PromptProvider>
     </>
   );
 }
