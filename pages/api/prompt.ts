@@ -17,6 +17,8 @@ export default async function handler(
     max_tokens: 1024,
   });
 
+  console.log(completion, completion.data.choices);
+
   const [_, results] = completion.data.choices[0].text.split("\n\n");
 
   response.status(200).json(results.split("\n"));
