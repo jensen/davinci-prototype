@@ -28,8 +28,6 @@ interface PromptProviderProps {
 }
 
 const prompt = async (prompt: string) => {
-  console.log(prompt);
-
   const results = (await fetch("/api/prompt", {
     method: "post",
     headers: { "Content-Type": "application/json" },

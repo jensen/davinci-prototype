@@ -15,7 +15,7 @@ export default function ResultsList(props: ResultsListProps) {
           <li key={result} className={itemClasses}>
             <span className="font-medium text-sm">{result}</span>
             <span
-              className="cursor-pointer"
+              className="cursor-pointer ml-6"
               onClick={() => {
                 navigator.clipboard.writeText(result);
               }}
