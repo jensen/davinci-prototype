@@ -65,7 +65,7 @@ export default function Prompt(props: PromptProps) {
   const current = useCurrentInput(props.type, props.selected);
 
   return (
-    <div className="px-6 py-7 bg-white rounded-lg flex items-center space-x-4 border border-slate-100 drop-shadow-2xl">
+    <div className="px-6 py-7 bg-white rounded-lg flex items-center space-x-4 border border-slate-100 drop-shadow-2xl sm:min-w-[885px]">
       <Dot type={props.type} size={34} />
       {current === null && (
         <span className="text-gray-300 text-sm font-medium">
