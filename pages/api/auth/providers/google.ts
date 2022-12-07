@@ -28,5 +28,12 @@ export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
-  response.redirect(generateGoogleAuthUrl());
+  const url = generateGoogleAuthUrl();
+
+  if (url === null) {
+    response.status(500).send("Could not create provider url");
+    return;
+  }
+
+  response.redirect(url);
 }

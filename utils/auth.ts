@@ -1,7 +1,8 @@
+import type { GetServerSideProps } from "next";
 import { verify } from "utils/jwt";
 
 export function withAuth() {
-  return async (context) => {
+  return (async (context) => {
     const cookie = context.req.headers.cookie;
 
     if (!cookie) {
@@ -27,5 +28,5 @@ export function withAuth() {
         },
       };
     }
-  };
+  }) as GetServerSideProps<{ user: User | null }>;
 }

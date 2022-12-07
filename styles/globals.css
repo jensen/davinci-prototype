@@ -29,3 +29,16 @@
     );
   }
 }
+
+@layer components {
+  .google {
+    box-shadow: 0px 0px 2.41919px rgba(0, 0, 0, 0.084),
+      0px 2.41919px 2.41919px rgba(0, 0, 0, 0.168);
+    border-radius: 4.83838px;
+  }
+
+  .google:hover {
+    box-shadow: 0px 0px 14.5152px rgba(66, 133, 244, 0.7);
+    border-radius: 4.83838px;
+  }
+}

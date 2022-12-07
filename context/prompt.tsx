@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { createContext, useContext, useState, useCallback } from "react";
 import { formatters } from "components/form/Prompt";
 
@@ -27,25 +28,36 @@ interface PromptProviderProps {
   children: ReactNode;
 }
 
-const prompt = async (prompt: string) => {
-  const results = (await fetch("/api/prompt", {
-    method: "post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt }),
-  }).then((response) => response.json())) as string[];
+const prompt = async (prompt: string, type: string) => {
+  try {
+    const results = (await fetch("/api/prompt", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt, type }),
+    }).then((response) => {
+      if (response.status === 401) {
+        throw new Error("Unauthorized");
+      }
 
-  return results.map((result) => {
-    const match = /(\d\.) (.*)/.exec(result);
+      return response.json();
+    })) as string[];
 
-    if (match) {
-      return match[2] as string;
-    }
+    return results.map((result) => {
+      const match = /(\d\.) (.*)/.exec(result);
 
-    return result;
-  });
+      if (match) {
+        return match[2] as string;
+      }
+
+      return result;
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
 export default function PromptProvider(props: PromptProviderProps) {
+  const { push } = useRouter();
   const [selected, setSelected] = useState<Selected>({});
   const [results, setResults] = useState<string[]>([]);
   const [asking, setAsking] = useState(false);
@@ -54,25 +66,31 @@ export default function PromptProvider(props: PromptProviderProps) {
     async (type: string) => {
       setAsking(true);
 
-      if (type === "email") {
-        setResults(
-          await prompt(
-            formatters.email.text(selected as unknown as EmailFormatter)
-          )
-        );
-      }
+      try {
+        if (type === "email") {
+          setResults(
+            await prompt(
+              formatters.email.text(selected as unknown as EmailFormatter),
+              type
+            )
+          );
+        }
 
-      if (type === "website") {
-        setResults(
-          await prompt(
-            formatters.website.text(selected as unknown as WebsiteFormatter)
-          )
-        );
+        if (type === "website") {
+          setResults(
+            await prompt(
+              formatters.website.text(selected as unknown as WebsiteFormatter),
+              type
+            )
+          );
+        }
+      } catch (error) {
+        push("/");
       }
 
       setAsking(false);
     },
-    [selected]
+    [selected, push]
   );
 
   const reset = useCallback(() => {

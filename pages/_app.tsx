@@ -14,7 +14,7 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
-interface AppPropsWithLayout extends AppProps<{ user: { id: string } | null }> {
+interface AppPropsWithLayout extends AppProps<{ user: User | null }> {
   Component: NextPageWithLayout<{ user: { id: string } | null }>;
 }
 

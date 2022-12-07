@@ -12,3 +12,10 @@ interface EmailFormatter extends BaseFormatter {
 interface WebsiteFormatter extends BaseFormatter {
   section: string | null;
 }
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+}

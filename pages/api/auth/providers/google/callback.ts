@@ -93,7 +93,7 @@ export default async function handler(
 
   const [user] = users;
 
-  const jwt = await sign({
+  const jwt = await sign<{ user: User }>({
     user: {
       ...user,
       email: result.email,
@@ -104,5 +104,5 @@ export default async function handler(
 
   const cookie = `alicent_auth=${jwt}; path=/; samesite=lax; httponly;`;
 
-  response.setHeader("set-cookie", cookie).redirect("/");
+  response.setHeader("set-cookie", cookie).redirect("/email");
 }

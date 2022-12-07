@@ -12,9 +12,10 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
-  email    String    @unique
-  password String?
-  account  Account[]
+  email      String       @unique
+  password   String?
+  account    Account[]
+  Completion Completion[]
 
   @@map(name: "users")
 }
@@ -55,4 +56,26 @@ model Account {
   user_id String @db.Uuid
 
   @@map(name: "accounts")
+}
+
+model Completion {
+  id         String   @id @default(dbgenerated("extensions.uuid_generate_v4()")) @db.Uuid
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  model    String
+  type     String
+  prompt   String
+  text     String
+  parsed   Json
+  finished String
+
+  usage_prompt     Int
+  usage_completion Int
+  usage_total      Int
+
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id String @db.Uuid
+
+  @@map(name: "completions")
 }
