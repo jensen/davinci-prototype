@@ -24,6 +24,7 @@ export default function Application({
 }: AppPropsWithLayout) {
   const getLayout =
     Component.getLayout ?? ((page) => <FullLayout>{page}</FullLayout>);
+
   return (
     <>
       <Head>

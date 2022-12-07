@@ -17,7 +17,7 @@ interface AuthProviderProps {
 export default function AuthProvider(props: AuthProviderProps) {
   return (
     <AuthContext.Provider value={{ user: props.user }}>
-      {props.children};
+      {props.children}
     </AuthContext.Provider>
   );
 }

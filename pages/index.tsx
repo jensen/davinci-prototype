@@ -11,7 +11,7 @@ export default function Search() {
     <div className="relative flex justify-center">
       <Alicent />
       <div className="absolute z-20 top-[calc(50%-20px)]">
-        {user === null && <GoogleButton />}{" "}
+        {user === null && <GoogleButton />}
       </div>
     </div>
   );
