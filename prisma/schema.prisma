@@ -7,10 +7,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id          String   @id @default(dbgenerated("extensions.uuid_generate_v4()")) @db.Uuid
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-  provider_id String   @unique
-  email       String
+model User {
+  id         String   @id @default(dbgenerated("extensions.uuid_generate_v4()")) @db.Uuid
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  email    String    @unique
+  password String?
+  account  Account[]
+
+  @@map(name: "users")
+}
+
+model Profile {
+  id         String   @id @db.Uuid
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  name   String
+  avatar String
+
+  @@map(name: "profiles")
+}
+
+model Provider {
+  id         String   @id @default(dbgenerated("extensions.uuid_generate_v4()")) @db.Uuid
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  name    String
+  account Account[]
+
+  @@map(name: "providers")
+}
+
+model Account {
+  id         String   @id @default(dbgenerated("extensions.uuid_generate_v4()")) @db.Uuid
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  uid String
+
+  provider    Provider @relation(fields: [provider_id], references: [id], onDelete: Cascade)
+  provider_id String   @db.Uuid
+
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id String @db.Uuid
+
+  @@map(name: "accounts")
 }

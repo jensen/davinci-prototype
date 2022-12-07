@@ -1,5 +1,6 @@
 import Form from "components/form/Form";
 import useRadialGradient from "hooks/useRadialGradient";
+import { withAuth } from "utils/auth";
 
 export default function Email() {
   useRadialGradient("email");
@@ -10,3 +11,5 @@ export default function Email() {
     </div>
   );
 }
+
+export const getServerSideProps = withAuth();

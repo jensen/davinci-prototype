@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import Logo from "components/brand/Logo";
 import classnames from "classnames";
+import { useAuth } from "context/auth";
 
 import type { ReactNode } from "react";
 
@@ -83,6 +85,8 @@ HeaderButton.defaultProps = {
 };
 
 export default function Header() {
+  const { user } = useAuth();
+
   return (
     <header className="px-8 py-4 flex justify-between items-center">
       <Link href="/" className="flex items-center space-x-3 w-36">
@@ -108,10 +112,19 @@ export default function Header() {
           )}
         </HeaderLink>
       </ul>
-      <div className="w-36">
+      <div className="w-36 flex items-center justify-between">
         <Link href="#" className="text-gray-500 font-semibold text-xs">
           Feedback
         </Link>
+        {user && (
+          <Image
+            src={user.avatar}
+            width={32}
+            height={32}
+            alt={user.name}
+            className="rounded-full border-gray-300 border-2"
+          />
+        )}
       </div>
     </header>
   );
