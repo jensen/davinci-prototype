@@ -85,15 +85,15 @@ export default async function handler(
         insert into users (email) values (${result.email}) returning id
       ), profile as (
         insert into profiles (id, name, avatar) select id, ${result.name}, ${result.picture} from u
-      ), provider as (
-        select id as provider_id from providers where name = 'google'
-      ) insert into accounts (uid, provider_id, user_id) select ${result.sub}, provider_id, id from u, provider returning user_id as id;
+      ), account as (
+        insert into accounts (uid, provider_id, user_id) select ${result.sub}, providers.id as provider_id, u.id from u, providers where providers.name = 'google' returning user_id
+      ) insert into subscriptions (user_id) select user_id as id from account returning user_id as id
     `;
   }
 
   const [user] = users;
 
-  const jwt = await sign<{ user: User }>({
+  const jwt = await sign<{ user: Omit<User, "plan"> }>({
     user: {
       ...user,
       email: result.email,

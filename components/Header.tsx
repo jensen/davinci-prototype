@@ -84,6 +84,19 @@ HeaderButton.defaultProps = {
   primary: false,
 };
 
+const UpgradeButton = () => {
+  const pathname = usePathname();
+
+  return (
+    <Link
+      href={`/api/payment/checkout?redirect_to=${pathname}`}
+      className="upgrade px-5 py-3 font-semibold text-xs text-white rounded"
+    >
+      Upgrade
+    </Link>
+  );
+};
+
 export default function Header() {
   const { user } = useAuth();
 
@@ -112,10 +125,11 @@ export default function Header() {
           )}
         </HeaderLink>
       </ul>
-      <div className="w-36 flex items-center justify-between">
+      <div className="flex items-center space-x-4">
         <Link href="#" className="text-gray-500 font-semibold text-xs">
           Feedback
         </Link>
+        {user && user.plan === "base" && <UpgradeButton />}
         {user && (
           <Image
             src={user.avatar}

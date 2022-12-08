@@ -12,23 +12,28 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
-  email      String       @unique
-  password   String?
-  account    Account[]
-  Completion Completion[]
+  email    String  @unique
+  password String?
 
-  @@map(name: "users")
+  account      Account[]
+  completion   Completion[]
+  subscription Subscription?
+  Profile      Profile[]
+
+  @@map("users")
 }
 
 model Profile {
-  id         String   @id @db.Uuid
+  id   String @id @db.Uuid
+  user User   @relation(fields: [id], references: [id], onDelete: Cascade)
+
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
   name   String
   avatar String
 
-  @@map(name: "profiles")
+  @@map("profiles")
 }
 
 model Provider {
@@ -39,7 +44,7 @@ model Provider {
   name    String
   account Account[]
 
-  @@map(name: "providers")
+  @@map("providers")
 }
 
 model Account {
@@ -47,15 +52,28 @@ model Account {
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
-  uid String
+  uid         String
+  provider_id String @db.Uuid
+  user_id     String @db.Uuid
 
-  provider    Provider @relation(fields: [provider_id], references: [id], onDelete: Cascade)
-  provider_id String   @db.Uuid
+  provider Provider @relation(fields: [provider_id], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
+  @@map("accounts")
+}
+
+model Subscription {
+  id         String   @id @default(dbgenerated("extensions.uuid_generate_v4()")) @db.Uuid
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  plan        String  @default("base")
+  customer_id String?
+
+  user_id String @unique(map: "subscriptions_pk") @db.Uuid
   user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id String @db.Uuid
 
-  @@map(name: "accounts")
+  @@map("subscriptions")
 }
 
 model Completion {
@@ -74,8 +92,8 @@ model Completion {
   usage_completion Int
   usage_total      Int
 
-  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id String @db.Uuid
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  @@map(name: "completions")
+  @@map("completions")
 }

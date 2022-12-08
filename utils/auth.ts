@@ -1,5 +1,6 @@
 import type { GetServerSideProps } from "next";
 import { verify } from "utils/jwt";
+import { query } from "services/db";
 
 export function withAuth() {
   return (async (context) => {
@@ -14,11 +15,18 @@ export function withAuth() {
     }
 
     try {
-      const { user } = await verify(cookie.split("=")[1]);
+      const { user } = await verify<{ user: User }>(cookie.split("=")[1]);
+
+      const [details] = await query<
+        { plan: string }[]
+      >`select subscriptions.plan from subscriptions join users on users.id = subscriptions.user_id where users.id = ${user.id}::uuid`;
 
       return {
         props: {
-          user,
+          user: {
+            ...user,
+            ...details,
+          },
         },
       };
     } catch (error) {
