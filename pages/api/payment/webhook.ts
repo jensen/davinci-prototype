@@ -16,12 +16,16 @@ export default async function handler(
   if (request.method === "POST") {
     const event = await constructEvent(request);
 
+    console.log(event.type);
+
     if (event.type === "checkout.session.completed") {
+      console.log(event);
       await query`update subscriptions set customer_id = ${event.data.object.customer} where user_id = ${event.data.object.client_reference_id}::uuid`;
     }
 
     if (event.type === "customer.subscription.updated") {
       if (event.data.object.status === "active") {
+        console.log(event);
         await query`update subscriptions set plan = 'pro' where customer_id = ${event.data.object.customer}`;
       }
     }

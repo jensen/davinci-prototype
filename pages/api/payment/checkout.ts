@@ -13,8 +13,6 @@ export default async function handler(
     const proto = request.headers["x-forwarded-proto"] ? "https" : "http";
     const { redirect_to } = request.query;
 
-    console.log(redirect_to);
-
     if (process.env.STRIPE_SUBSCRIPTION_PRO === undefined) {
       throw new Error("Must provide stripe subscription");
     }
